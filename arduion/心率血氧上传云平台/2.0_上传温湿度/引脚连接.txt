@@ -1,0 +1,19 @@
+1. MAX30105 心率血氧传感器
+电源连接
+MAX30105 的 VCC 引脚 → ESP8266 的 3.3V 引脚
+MAX30105 的 GND 引脚 → ESP8266 的 GND 引脚
+通信连接
+MAX30105 的 SDA 引脚 → ESP8266 的 D2 引脚（GPIO4）
+MAX30105 的 SCL 引脚 → ESP8266 的 D1 引脚（GPIO5）
+
+
+2. DHT11 温湿度传感器
+电源连接
+DHT11 的 VCC 引脚 → ESP8266 的 3.3V 或 5V 引脚
+DHT11 的 GND 引脚 → ESP8266 的 GND 引脚
+通信连接
+DHT11 的 DATA 引脚 → ESP8266 的 D3 引脚（GPIO0）
+
+3. OLED显示
+
+SDA_PIN 被重新定义为 12（对应 D6 引脚），SCL_PIN 保持为 14（对应 D5 引脚），这样 OLED 就会使用 D5 和 D6 引脚进行通信。

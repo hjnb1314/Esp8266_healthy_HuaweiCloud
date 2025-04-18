@@ -1,0 +1,67 @@
+// 配置华为云 OBS 客户端，这些信息需要你填写自己的
+/*const obsClient = new ObsClient({
+    access_key_id: 'GRVPAIONPRGGSAG7MX60',
+    secret_access_key: 'sxhdoXtTHkLSSXlnORwzilyBrGZehrb7QjNy8JwS',
+    server: 'obs.cn-north-4.myhuaweicloud.com'
+});*/
+
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
+const ObsClient = require('esdk-obs-nodejs');
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+const port = 3000;
+
+// 使用 dotenv 管理环境变量
+require('dotenv').config();
+
+// 配置华为云 OBS 客户端
+const obsClient = new ObsClient({
+    access_key_id: 'GRVPAIONPRGGSAG7MX60',
+    secret_access_key: 'sxhdoXtTHkLSSXlnORwzilyBrGZehrb7QjNy8JwS',
+    server: 'obs.cn-north-4.myhuaweicloud.com'
+});
+
+const cors = require('cors');
+app.use(cors());
+
+// 从 OBS 获取数据并推送的函数
+const getDataFromObsAndPush = async () => {
+    try {
+        // 假设 OBS 存储桶名称和文件路径，你需要根据实际情况修改
+        const bucketName = 'my-bucket2025';
+        const objectKey = 'esp8266_healthy_data';
+
+        const result = await obsClient.getObject({
+            Bucket: bucketName,
+            Key: objectKey
+        });
+
+        const data = JSON.parse(result.Body.toString('utf8'));
+        // 假设 data 是包含 heart, o2, temperature, humidity 的对象
+        io.emit('data_update', data);
+
+    } catch (error) {
+        console.error('Error fetching data from OBS:', error);
+    }
+};
+
+// 定时从 OBS 获取数据并推送，例如每 5 秒获取一次
+setInterval(getDataFromObsAndPush, 5000);
+
+app.get('/obs/buckets', (req, res) => {
+    obsClient.listBuckets((err, result) => {
+        if (err) {
+            console.error('Error:', err);
+            res.status(500).json({ error: 'Failed to get OBS buckets' });
+        } else {
+            res.json(result.InterfaceResult.Buckets);
+        }
+    });
+});
+
+server.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});

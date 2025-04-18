@@ -1,0 +1,15 @@
+{
+  "hash": "dc267e9c",
+  "configHash": "1e51c29c",
+  "lockfileHash": "91d57041",
+  "browserHash": "a1d55732",
+  "optimized": {
+    "socket.io-client": {
+      "src": "../../../../../node_modules/socket.io-client/build/esm/index.js",
+      "file": "socket__io-client.js",
+      "fileHash": "9255ddbb",
+      "needsInterop": false
+    }
+  },
+  "chunks": {}
+}
