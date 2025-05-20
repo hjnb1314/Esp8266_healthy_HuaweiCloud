@@ -48,10 +48,10 @@ function getToken() {
                 "methods": ["password"],
                 "password": {
                     "user": {
-                        "name": "hjnb", // 替换为你的用户名
-                        "password": "H123456789j@", // 替换为你的密码
+                        "name": "", // 替换为你的用户名
+                        "password": "", // 替换为你的密码
                         "domain": {
-                            "name": "hjnb1314" // 替换为你的域名
+                            "name": "" // 替换为你的域名
                         }
                     }
                 }
